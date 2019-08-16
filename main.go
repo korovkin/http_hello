@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/xml"
+	"flag"
 	"fmt"
 	"io"
 	"log"
@@ -90,9 +91,23 @@ func registerPANIC() {
 	)
 }
 
+func registerERROR() {
+	// HTTP Error:
+	http.HandleFunc("/error",
+		func(w http.ResponseWriter, r *http.Request) {
+			log.Println("=> request", r.RequestURI)
+			http.Error(w,
+				fmt.Sprintf("nope: %d", http.StatusNotFound),
+				http.StatusNotFound)
+		},
+	)
+}
+
 func main() {
-	port := 9001
-	address := fmt.Sprintf("0.0.0.0:%d", port)
+	host := flag.String("host", "0.0.0.0", "server address to bind to")
+	port := flag.Int("port", 9001, "server port to run on")
+
+	address := fmt.Sprintf("%s:%d", *host, *port)
 	log.Println(fmt.Sprintf(" => Running on http://%s", address))
 
 	// a plain txt endpoint:
@@ -108,17 +123,9 @@ func main() {
 	registerJSON()
 	registerXML()
 	registerPANIC()
+	registerERROR()
 
-	// HTTP Error:
-	http.HandleFunc("/error",
-		func(w http.ResponseWriter, r *http.Request) {
-			log.Println("=> request", r.RequestURI)
-			http.Error(w,
-				fmt.Sprintf("nope: %d", http.StatusNotFound),
-				http.StatusNotFound)
-		},
-	)
-
+	// run the server forever:
 	err := http.ListenAndServe(address, nil)
 	gotils.CheckFatal(err)
 }
