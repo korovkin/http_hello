@@ -131,7 +131,7 @@ func main() {
 		"app.css",
 	}
 
-	log.Println("FILES: %v", gotils.ToJSONString(files))
+	log.Println("FILES:", gotils.ToJSONString(files))
 	for _, filename := range files {
 		name := filename
 		http.HandleFunc("/"+name,
