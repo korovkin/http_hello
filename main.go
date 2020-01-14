@@ -12,8 +12,8 @@ import (
 	"github.com/korovkin/gotils"
 )
 
+// a JSON endpoint:
 func registerJSON() {
-	// a JSON endpoint:
 	http.HandleFunc("/json",
 		func(w http.ResponseWriter, r *http.Request) {
 			log.Println("=> request", r.RequestURI)
@@ -37,8 +37,8 @@ func registerJSON() {
 		})
 }
 
+// an XML Endpoint:
 func registerXML() {
-	// an XML Endpoint:
 	http.HandleFunc("/xml",
 		func(w http.ResponseWriter, r *http.Request) {
 			log.Println("=> request", r.RequestURI)
@@ -66,11 +66,10 @@ func registerXML() {
 		})
 }
 
+// handle a panic gracefully:
 func registerPANIC() {
-	// handle a panic gracefully:
 	http.HandleFunc("/panic",
 		func(w http.ResponseWriter, r *http.Request) {
-
 			defer func() {
 				err := recover()
 				if err == nil {
@@ -79,8 +78,7 @@ func registerPANIC() {
 				log.Println("RECOVER: ERR:", err)
 
 				io.WriteString(
-					w,
-					fmt.Sprintf("PANIC RECOVER: %s\n", err.(error).Error()),
+					w, fmt.Sprintf("PANIC RECOVER: %s\n", err.(error).Error()),
 				)
 			}()
 
@@ -120,12 +118,20 @@ func main() {
 		},
 	)
 
+	log.Println("ENDPOINTS: start")
+	registerJSON()
+	registerXML()
+	registerPANIC()
+	registerERROR()
+	log.Println("ENDPOINTS: end")
+
 	files := []string{
 		"app.js",
 		"app.html",
 		"app.css",
 	}
 
+	log.Println("FILES: %v", gotils.ToJSONString(files))
 	for _, filename := range files {
 		name := filename
 		http.HandleFunc("/"+name,
@@ -135,17 +141,12 @@ func main() {
 		)
 	}
 
-	log.Println("ENDPOINTS: start")
-	registerJSON()
-	registerXML()
-	registerPANIC()
-	registerERROR()
-	log.Println("ENDPOINTS: end")
-
+	// HTTP:
 	// run the server forever:
 	// err := http.ListenAndServe(address, nil)
 	// gotils.CheckFatal(err)
 
+	// HTTPS:
 	err := http.ListenAndServeTLS(address,
 		"certs/localhost/cert.pem",
 		"certs/localhost/key.pem",
