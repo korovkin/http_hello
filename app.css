@@ -5,7 +5,7 @@
      text-align: center;
      margin: 100px;
  }
-
+/
 
  .js {
      font-family: 'Lato-Light';
@@ -16,20 +16,21 @@
  }
 
  h1 {
-    font-family: 'Lobster', cursive;
+    // font-family: 'Lobster', cursive;
+    font-family: 'Pacifico', cursive;
     font-size: xx-large;
     margin-bottom: 0px;
  }
 
  h2 {
-    font-family: 'Public Sans', sans-serif;
     font-size: large;
  }
 
  p {
+    font-family: 'Public Sans', sans-serif;
     font-family: 'Abel', sans-serif;
     font-size: medium;
-    color: black;
+    color: darkolivegreen;
     padding-top: 4px;
     padding-bottom: 0px;
     margin-top: 4px;
