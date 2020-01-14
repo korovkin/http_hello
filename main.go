@@ -120,12 +120,20 @@ func main() {
 		},
 	)
 
+	log.Println("ENDPOINTS: start")
 	registerJSON()
 	registerXML()
 	registerPANIC()
 	registerERROR()
+	log.Println("ENDPOINTS: end")
 
 	// run the server forever:
-	err := http.ListenAndServe(address, nil)
+	// err := http.ListenAndServe(address, nil)
+	// gotils.CheckFatal(err)
+
+	err := http.ListenAndServeTLS(address,
+		"certs/localhost.crt",
+		"certs/localhost.key",
+		nil)
 	gotils.CheckFatal(err)
 }
