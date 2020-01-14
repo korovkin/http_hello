@@ -1,0 +1,23 @@
+ body {
+     font-family: 'Lobster';
+     font-weight: 300;
+     font-size: xx-large;
+     color:teal;
+     text-align: center;
+     margin: 100px;
+ }
+
+ .js {
+     font-family: 'Lato-Light';
+     font-weight: 300;
+     font-size: large;
+     color:darkgray;
+     text-align: center;
+ }
+
+ p {
+     padding-top: 4px;
+     padding-bottom: 0px;
+     margin-top: 4px;
+     margin-bottom: 0px;
+ }

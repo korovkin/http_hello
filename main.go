@@ -120,6 +120,21 @@ func main() {
 		},
 	)
 
+	files := []string{
+		"app.js",
+		"app.html",
+		"app.css",
+	}
+
+	for _, filename := range files {
+		name := filename
+		http.HandleFunc("/"+name,
+			func(w http.ResponseWriter, r *http.Request) {
+				http.ServeFile(w, r, name)
+			},
+		)
+	}
+
 	log.Println("ENDPOINTS: start")
 	registerJSON()
 	registerXML()
@@ -132,8 +147,8 @@ func main() {
 	// gotils.CheckFatal(err)
 
 	err := http.ListenAndServeTLS(address,
-		"certs/localhost.crt",
-		"certs/localhost.key",
+		"certs/localhost/cert.pem",
+		"certs/localhost/key.pem",
 		nil)
 	gotils.CheckFatal(err)
 }
